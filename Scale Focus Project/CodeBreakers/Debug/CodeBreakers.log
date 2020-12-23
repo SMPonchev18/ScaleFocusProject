@@ -1,0 +1,3 @@
+﻿  CodeBreakers.cpp
+C:\Users\petro\source\gitProject\Scale Focus Project\CodeBreakers\CodeBreakers.cpp(100,9): warning C4101: 'codeBreaker': unreferenced local variable
+  CodeBreakers.vcxproj -> C:\Users\petro\source\gitProject\Scale Focus Project\CodeBreakers\Debug\CodeBreakers.exe
