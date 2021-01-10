@@ -1,19 +1,54 @@
 #include <iostream>
+#include <string>
+#include <fstream>
 #include <stdlib.h>
-#include <windows.h>
 #include <ctime>
 #include <cmath>
 #include <vector>
+#include <stdio.h> 
+#include <time.h> 
 using namespace std;
 
-//Task 1
-void Names(string& codebreakerName, string& commanderName)
+bool showMainMenu = true;
+
+struct OPTION2PLAYERS
 {
-    cout << "Enter the code breaker name: ";
-    cin >> codebreakerName;
-    cout << "Enter the name for the German commander: ";
-    cin >> commanderName;
+    string codewriterusername;
+    string codebreakerusername;
+
+    vector<char> cordinates;
+
+    int codewriterpoints = 100;
+};
+
+void checkM(int& a)
+{
+    while (1)
+    {
+        if (cin.fail())
+        {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << endl;
+            cout << "Incorrect Input!" << endl;
+            cout << "Try again ->: "; cin >> a;
+        }
+        if (!cin.fail()) break;
+    }
 }
+
+void exit()
+{
+    system("CLS");
+    cout << endl;
+    cout << "|-----------------------|" << endl;
+    cout << "Exit process remaining.." << endl;
+    cout << "|-----------------------|" << endl;
+}
+
+//-------------------------------- Option 1 --------------------------------
+
+//====================================Task1====================================
 
 vector <char> inputGerman()
 {
@@ -29,31 +64,10 @@ vector <char> inputGerman()
     return vGerman;
 }
 
-void greatingGerman(string& commanderName)
-{
-
-    cout << "|----------------------------------------------------------------------------------------------------|" << endl;
-    cout << "| Hello " << commanderName << ",";
-    for (int i = commanderName.size(); i < 92; i++)
-    {
-        cout << " ";
-    }
-    cout << "|" << endl;
-    cout << "|                                                                                                    |" << endl;
-    cout << "| We need to send the ships on the correct spot.So we need your help to send us the coordinates.     |" << endl;
-    cout << "| Please enter them and be very careful because the English codebreaker can decrypt your coordinates |" << endl;
-    cout << "|----------------------------------------------------------------------------------------------------|" << endl;
-}
-
 void germanQote(bool& flag, bool flag2, vector <char> German, vector <int>& var)
 {
     int counter = 0;
     char wrongElements[26] = { '!', '"', '#', '$','%','&','(',')','*','+',',','-','`','~','.',';',':','<','>','=','_','@','?','|','/','^' };
-
-    for (int i = 0; i < 4; i++)
-    {
-        cout << German[i] << " ";
-    }
 
     int counterRepeate = 0;
 
@@ -121,68 +135,30 @@ void germanQote(bool& flag, bool flag2, vector <char> German, vector <int>& var)
             else
             {
                 cout << endl;
-                cout << "| Ohh there is a problem. You repeate one of the number from the cordinates or enter a letter. Do not repeate them!|" << endl;
+                cout << "|-------------------------------------|" << endl;
+                cout << "You repeate one of the entered numbers." << endl;
+                cout << "     Do not repeate them!" << endl;
+                cout << "|-------------------------------------|" << endl;
                 cout << endl;
             }
         }
         else
         {
             cout << endl;
-            cout << "| Ohh there is a problem. You enter a number out of range or enter a letter. Do not do it again!|" << endl;
+            cout << "|------------------------------|" << endl;
+            cout << "You enter a number out of range!" << endl;
+            cout << "     Do not do it again!" << endl;
+            cout << "|------------------------------|" << endl;
             cout << endl;
         }
 
         flag2 = true;
-
         cout << endl;
-
     }
     else
     {
-        cout << "There is a problem you enter a letter or a wrond character!" << endl;
+        cout << "There is a problem you enter a letter or a wrong character!" << endl;
     }
-}
-void greatingCodeBreaker(char nonVisibleCode[], string& codebreakerName)
-{
-    for (int i = 0; i < 50; i++)
-    {
-        cout << endl;
-    }
-
-    for (int i = 0; i < 4; i++)
-    {
-        nonVisibleCode[i] = '*';
-    }
-    cout << "This are the cordinate of the German ship: ";
-    for (int i = 0; i < 4; i++)
-    {
-        cout << nonVisibleCode[i];
-    }
-    cout << endl;
-    cout << endl;
-    cout << "|-----------------------------------------------------------------------------------------------|" << endl;
-    cout << "| TASK1                                                                                         |" << endl;
-    cout << "|                                                                                               |" << endl;
-    cout << "|  Hello " << codebreakerName << ",";
-    for (int i = codebreakerName.size(); i < 86; i++)
-    {
-        cout << " ";
-    }
-    cout << "|" << endl;
-    cout << "|  We need you for this mission. We need to win the war!                                        |";
-    cout << endl;
-    cout << "|  So your first task is to break this code. Know that the numbers in the code aren't repeatable|";
-    cout << endl;
-    cout << "|  You need to guess minimum four numbers from the cordinates.                                  |";
-    cout << endl;
-    cout << "|  Know that the number is in the range from 0 to 7.                                            |";
-    cout << endl;
-    cout << "|                                                                                               |" << endl;
-    cout << "|  Good luck!                                                                                   |";
-    cout << endl;
-    cout << "|-----------------------------------------------------------------------------------------------|" << endl;
-    cout << endl;
-
 }
 
 vector <char> inputCodeBreaker()
@@ -201,7 +177,6 @@ vector <char> inputCodeBreaker()
 
 void checkingCoordinates(bool& flag, vector <char> codeBreaker, vector <char> German, vector <int>& var, int& points, int& counterTries1)
 {
-
     char wrongElements[26] = { '!', '"', '#', '$','%','&','(',')','*','+',',','-','`','~','.',';',':','<','>','=','_','@','?','|','/','^' };
     int checkingNumbers[5] = { 9,9,9,9,9 };
     int checkingPosition[5] = { 9,9,9,9,9 };
@@ -249,7 +224,7 @@ void checkingCoordinates(bool& flag, vector <char> codeBreaker, vector <char> Ge
             int element = 0;
             for (int i = 0; i < 4; i++)
             {
-                element = codeBreaker[i] - '0';              //rabotiiiii trqa smenq nadolu s vector var2
+                element = codeBreaker[i] - '0';
                 numbersOfTheChar.push_back(element);
             }
 
@@ -324,7 +299,9 @@ void checkingCoordinates(bool& flag, vector <char> codeBreaker, vector <char> Ge
         }
     }
 }
-//Task 2
+
+//====================================Task2====================================
+
 void germanQoteTask2(bool& flag, bool flagRange, vector <char> germanRepeatable, vector <int>& varRepeatable)
 {
     char wrongElements[26] = { '!', '"', '#', '$','%','&','(',')','*','+',',','-','`','~','.',';',':','<','>','=','_','@','?','|','/','^' };
@@ -357,7 +334,7 @@ void germanQoteTask2(bool& flag, bool flagRange, vector <char> germanRepeatable,
 
         for (int i = 0; i < 4; i++)
         {
-            elements = germanRepeatable[i] - '0';              //rabotiiiii trqa smenq nadolu s vector var2
+            elements = germanRepeatable[i] - '0';
             varRepeatable.push_back(elements);
         }
 
@@ -390,48 +367,6 @@ void germanQoteTask2(bool& flag, bool flagRange, vector <char> germanRepeatable,
     {
         cout << "There is a problem you enter a letter or a wrond character!" << endl;
     }
-}
-void greatingCodeBreaker2(char nonVisibleCode[], string& codebreakerName)
-{
-    for (int i = 0; i < 50; i++)
-    {
-        cout << endl;
-    }
-
-    for (int i = 0; i < 4; i++)
-    {
-        nonVisibleCode[i] = '*';
-    }
-    cout << "This are the cordinate of the German ship: ";
-    for (int i = 0; i < 4; i++)
-    {
-        cout << nonVisibleCode[i];
-    }
-    cout << endl;
-    cout << endl;
-    cout << "|-----------------------------------------------------------------------------------------------|" << endl;
-    cout << "| TASK2                                                                                         |" << endl;
-    cout << "|                                                                                               |" << endl;
-    cout << "|  Hello " << codebreakerName << ",";
-    for (int i = codebreakerName.size(); i < 86; i++)
-    {
-        cout << " ";
-    }
-    cout << "|" << endl;
-    cout << "|  We need you for this mission. We need to win the war!                                        |";
-    cout << endl;
-    cout << "|  So your first task is to break this code. Know that the numbers in the code ARE repeatable.  |";
-    cout << endl;
-    cout << "|  You need to guess minimum four numbers from the cordinates.                                  |";
-    cout << endl;
-    cout << "|  Know that the number is in the range from 0 to 7.                                            |";
-    cout << endl;
-    cout << "|                                                                                               |" << endl;
-    cout << "|  Good luck!                                                                                   |";
-    cout << endl;
-    cout << "|-----------------------------------------------------------------------------------------------|" << endl;
-    cout << endl;
-
 }
 
 void checkingCoordinatesTask2(bool& flag, vector <char> codeBreakerRepeatable, vector <int>& varRepeatable, int& points, int& counterTries2)
@@ -562,147 +497,281 @@ void checkingCoordinatesTask2(bool& flag, vector <char> codeBreakerRepeatable, v
         }
     }
 }
-int main()
+
+void repeatFunctionsTask2(OPTION2PLAYERS* player, int option1counter, vector <int> var, int& counterTries1, int& option1CordinatesCounter)
 {
-    int points = 100;
+    counterTries1 = 0;
 
-    //Task 1(level 1)
-    vector <char> German;
-    vector <int> var;
-    vector <char> codeBreaker;
-    char nonVisibleCode[10];
     bool flag = false;
-    bool flag2 = true;
-    string codebreakerName, commanderName;
-    int counterTries1 = 0;
-    //Task 2(level 1)
-    vector<char> germanRepeatable, codeBreakerRepeatable;
-    vector <int> varRepeatable;
     bool flagRange = true;
-    int counterTries2 = 0;
-    //Task 1(level 2)
 
-
-    //Task 2(level 2)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    Names(codebreakerName, commanderName);
     cout << endl;
-    cout << "(Note: If you enter more than 4 digits our game will take only the first 4 digits, so don't do it!)" << endl;
+    cout << "============================" << endl;
+    cout << "Entering in task 2" << endl;
+    cout << "============================" << endl;
     cout << endl;
 
-
-
-
-
-
-
-
-    //Task 1(level 1)
-    cout << endl;
-    cout << "|Level 1/Task 1|" << endl;
-    cout << endl;
-    greatingGerman(codebreakerName);
 
     while (flag == false)
     {
         cout << "Please enter your cordinates for the ship: ";
-        German = inputGerman();
-        germanQote(flag, flag2, German, var);
+        player[option1CordinatesCounter].cordinates = inputGerman();
+        germanQoteTask2(flag, flagRange, player[option1CordinatesCounter].cordinates, var);
         if (flag == false)
             var.clear();
     }
-    clock_t time;
-    time = clock();
-
-    greatingCodeBreaker(nonVisibleCode, codebreakerName);
+    option1CordinatesCounter++;
 
     flag = false;
-
-    cout << "Please enter 4 numbers from the range of 0-7 ! Keep in mind that the numbers can't repeate." << endl;
-    cout << "(Note: If you enter more than 4 digits our game will take only the first 4 digits, so don't do it!)" << endl;
 
     while (flag == false)
     {
         cout << endl;
         cout << "Enter your guess: ";
-        codeBreaker = inputCodeBreaker();
-        checkingCoordinates(flag, codeBreaker, German, var, points, counterTries1);
+        vector<char>codeBreakerRepeatable = inputCodeBreaker();
+        checkingCoordinatesTask2(flag, codeBreakerRepeatable, var, player->codewriterpoints, counterTries1);
+        if (counterTries1 == 13)
+        {
+            cout << endl;
+            cout << "You have reached your limits of attempt. You lost!" << endl;
+            //flag = true;
+            // Tuka da che codebreakera e zagubil a codewriter e spechelil
+        }
     }
 
-    cout << endl;
-    cout << "Now is your time to take the second task. Keep in mind that the German CAN repeate the numbers of the coordinates." << endl;
-    cout << endl;
-    cout << "|Task 2|" << endl;
-    cout << endl;
+    //Tuk produljavame s dopulnenieto...
+    cout << "Tochki: " << player->codewriterpoints;
 
+}
 
+void storeInHtmlUk(OPTION2PLAYERS* player, int option1counter, vector <int> var, int counterTries1, int option1CordinatesCounter)
+{
+    system("CLS");
+    bool flag = false;  bool flag2 = true;
 
+    ofstream web3;
+    web3.open("HtmlCss\\index3.html");
 
-    //Task 2 (level 1)
-    flag = false;
+    for (int i = 0; i < option1counter; i++)
+    {
+        web3 << "<!DOCTYPE html>"
+            "<html lang=\"en\">"
+            "   <head>"
+            "       <meta charset=\"utf-8\">"
+            "       <title>Welcome to my website</title>"
+            "       <link rel=\"stylesheet\" href=\"style.css\">"
+            "   </head>"
+            "   <body class =\"body3\">"
+            "       <div class =\"container\">"
+            "           <h1>" << "Hello, " << player[i].codebreakerusername << " !" << "</h1>"
+            "           <p1>"
+            "               Your role is to help UK to find and destroy Germans battleship!"
+            "               The Germans have placed a coordinates of their Battleship!"
+            "               You have 13 tries in which you have to guess the combination of 4 numbers."
+            "               The numbers are in the range from 0 to 7 and you have to guess the position of the number too."
+            "               There is a timer which is going to start counting your time BY closing the browser."
+            "               If your time is good you will earn points, if its not you will lose points!"
+            "               Hurry up we are losing them! Good Luck!"
+            "           </p1>"
+            "           <pre></pre>"
+            "           <p1><u>Close the browser to continue the game..</u></p1>"
+            "           <iframe width=\"0\" height=\"0\" src=\"Music\\Uk.mp3\" frameborder=\"0\" allowfullscreen></iframe>"
+            "       </div>"
+            "   </body>"
+            "</html>";
+    }
+    web3.close();
+    system("HtmlCss\\index3.html");
+
 
     while (flag == false)
     {
+        cout << endl;
+        cout << "|------------------------------------------------|" << endl;
+        cout << "Please enter your guess: ";
+        vector <char> codeBreaker = inputCodeBreaker();
+        cout << "|------------------------------------------------|" << endl;
+        checkingCoordinates(flag, codeBreaker, player[option1CordinatesCounter].cordinates, var, player->codewriterpoints, counterTries1);
+        if (counterTries1 == 13)
+        {
+            cout << endl;
+            cout << "You have reached your limits of attempt. You lost!" << endl;
+            //flag = true;
+            //flagLost = false;
+            // Tuka da che codebreakera e zagubil a codewriter e spechelil
+        }
+    }
+    var.clear();
+
+    repeatFunctionsTask2(player, option1counter, var, counterTries1, option1CordinatesCounter);
+
+}
+
+void storeInHtmlGerman(OPTION2PLAYERS* player, int option1counter, vector <int> var, int counterTries1, int& option1CordinatesCounter)
+{
+    system("CLS");
+    bool flag = false;  bool flag2 = true;
+
+    ofstream web2;
+    web2.open("HtmlCss\\index2.html");
+
+    for (int i = 0; i < option1counter; i++)
+    {
+        web2 << "<!DOCTYPE html>"
+            "<html lang=\"en\">"
+            "   <head>"
+            "       <meta charset=\"utf-8\">"
+            "       <title>Welcome to my website</title>"
+            "       <link rel=\"stylesheet\" href=\"style.css\">"
+            "   </head>"
+            "   <body class =\"body2\">"
+            "       <div class =\"container\">"
+            "           <h1>" << "Hello, " << player[i].codewriterusername << " !" << "</h1>"
+            "           <p1>"
+            "               Your role is to protect Germans!"
+            "               The task is to set up a combination of 4 different numbers."
+            "               These numbers are going to be the coordinates of your Battleship!"
+            "               They should be in the range from 0 to 7 and they should not be repeated!"
+            "               Come on! We don't have any time to waste.."
+            "           </p1>"
+            "           <pre></pre>"
+            "           <p1><u>Close the browser to continue the game..</u></p1>"
+            "           <iframe width=\"0\" height=\"0\" src=\"Music\\Germans.mp3\" frameborder=\"0\" allowfullscreen></iframe>"
+            "       </div>"
+            "   </body>"
+            "</html>";
+    }
+    web2.close();
+    system("HtmlCss\\index2.html");
+
+    while (flag == false)
+    {
+        cout << endl;
+        cout << "|------------------------------------------------|" << endl;
         cout << "Please enter your cordinates for the ship: ";
-        germanRepeatable = inputGerman();
-        germanQoteTask2(flag, flagRange, germanRepeatable, varRepeatable);
+        player[option1CordinatesCounter].cordinates = inputGerman();         // Ima bug s cheka za bukvite!
+        cout << "|------------------------------------------------|" << endl;
+        germanQote(flag, flag2, player[option1CordinatesCounter].cordinates, var);
         if (flag == false)
-            varRepeatable.clear();
+            var.clear();
     }
+    option1CordinatesCounter++;
 
-    greatingCodeBreaker2(nonVisibleCode, codebreakerName);
+    storeInHtmlUk(player, option1counter, var, counterTries1, option1CordinatesCounter);
+}
 
-    flag = false;
+void playersUsernames(OPTION2PLAYERS* player, int& option1counter, bool& flag, vector <int> var, int counterTries1, int option1CordinatesCounter)
+{
+    cout << endl;
+    cin.ignore();
+    cout << "/-----------------------------------\\" << endl;
+    cout << "Please enter your username: " << endl;
+    cout << "Example: Atanas_Burmov" << endl;
+    cout << "Germany -> "; getline(cin, player[option1counter].codewriterusername);
+    cout << "United Kingdom -> "; getline(cin, player[option1counter].codebreakerusername);
+    cout << "\\-----------------------------------/" << endl;
 
-    cout << "Please enter 4 numbers from the range of 0-7 ! Keep in mind that the numbers CAN repeate." << endl;
-    cout << "(Note: If you enter more than 4 digits our game will take only the first 4 digits, so don't do it!)" << endl;
+    string str2 = " ";
+    size_t found = player[option1counter].codewriterusername.find(str2);
+    size_t found2 = player[option1counter].codebreakerusername.find(str2);
+
+    if (found != string::npos)
+    {
+        cout << endl;
+        cout << "|------------------------------------------------|" << endl;
+        cout << "There is a problem with your usernames, try again!" << endl;
+        cout << "|------------------------------------------------|" << endl;
+        cout << endl;
+    }
+    else if (found2 != string::npos)
+    {
+        cout << endl;
+        cout << "|------------------------------------------------|" << endl;
+        cout << "There is a problem with your usernames, try again!" << endl;
+        cout << "|------------------------------------------------|" << endl;
+        cout << endl;
+    }
+    else
+    {
+        flag = true;
+
+        option1counter++;
+        storeInHtmlGerman(player, option1counter, var, counterTries1, option1CordinatesCounter);
+    }
+}
+
+void enterPlayersUsernames(OPTION2PLAYERS* player, int& option1counter, vector <int> var, int counterTries1, int option1CordinatesCounter)
+{
+    bool flag = false;
 
     while (flag == false)
     {
-        cout << endl;
-        cout << "Enter your guess: ";
-        codeBreakerRepeatable = inputCodeBreaker();
-        checkingCoordinatesTask2(flag, codeBreakerRepeatable, varRepeatable, points, counterTries2);
+        playersUsernames(player, option1counter, flag, var, counterTries1, option1CordinatesCounter);
     }
+}
 
+void twoPlayers(OPTION2PLAYERS* player, int& option1counter, vector <int> var, int counterTries1, int option1CordinatesCounter)
+{
     cout << endl;
-    cout << "Now is your time to Level 2. Keep in mind that you played this time against the computer. And the numbers can't repeate in the first task." << endl;
+    system("CLS");
+    system("HtmlCss\\index.html");
+
+    enterPlayersUsernames(player, option1counter, var, counterTries1, option1CordinatesCounter);
+}
+
+bool mainMenu(OPTION2PLAYERS* player, int option1counter, vector <int> var, int counterTries1, int option1CordinatesCounter)
+{
     cout << endl;
-    cout << "|Level 2/Task 1|" << endl;
-    cout << endl;
+    cout << "/-----------------------------------\\" << endl;
+    cout << "Welcome to Bletchley!" << endl;
+    cout << "Choose your level:" << endl;
+    cout << "(1) Level 1: Play with another player" << endl;
+    cout << "(2) Level 2: Play with computer" << endl;
+    cout << "(3) Exit" << endl;
+    cout << "\\-----------------------------------/" << endl;
+
+    int option;
+    cout << "->: "; cin >> option;
+    checkM(option);
 
 
+    switch (option)
+    {
+    case 1:
+        twoPlayers(player, option1counter, var, counterTries1, option1CordinatesCounter);
+        break;
+
+    case 2:
+        //level2
+        break;
+
+    case 3:
+        exit();
+        return 0;
+
+    default:
+        cout << endl;
+        cout << "|--------------------------|" << endl;
+        cout << "Incorrect input, try again!" << endl;
+        cout << "|--------------------------|" << endl;
+        showMainMenu = false;
+    }
+    return true;
+}
 
 
+int main()
+{
+    OPTION2PLAYERS player[50];
+    int option1counter = 0;
+    int option1CordinatesCounter = 0;
 
+    vector <int> var;
+    int counterTries1 = 0;
 
+    //bool flagLost = true;
 
-
-
-    time = clock() - time;
-    int sec = (int)time / CLOCKS_PER_SEC;
-    int min = 0;
-    int hr = 0;
-    min = sec / 60;
-    hr = min / 60;
-
-    cout << endl;
-    cout << endl;
-    cout << "Your time is: " << int(hr) << " hr " << int(min % 60) << " min " << int(sec % 60) << " sec ";
-    cout << endl;
-    cout << "Your points are: " << points << " p.";
+    do {
+        showMainMenu = mainMenu(player, option1counter, var, counterTries1, option1CordinatesCounter);
+    } while (showMainMenu != false);
 }
