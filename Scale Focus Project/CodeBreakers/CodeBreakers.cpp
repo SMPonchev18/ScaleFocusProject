@@ -23,6 +23,7 @@ struct OPTION2PLAYERS
 {
     string codewriterusername;
     string codebreakerusername;
+    string winner;
 
     vector<char> cordinates;
 
@@ -43,6 +44,68 @@ void checkM(int& a)
         }
         if (!cin.fail()) break;
     }
+}
+
+void storeUkData(OPTION2PLAYERS* player, int option1counter, int option1points, TIMELIMIT* timer, int timercounter)
+{
+    ofstream usData;
+    usData.open("Data\\dataStore.txt", ios::out | ios::app);
+
+    for (int i = 0; i < option1counter; i++)
+    {
+        usData << "UK-player: " << player[i].codebreakerusername << endl;
+    }
+
+    usData << "UK-Points: " << player->codewriterpoints << endl;
+
+    //usData << "UK-time: " << (timer[0].hours + timer[1].hours) << " hr " << (timer[0].minutes + timer[1].minutes) << " min " << (timer[0].seconds + timer[1].seconds) << " sec " << endl;
+
+    for (int i = 0; i < timercounter; i++)
+    {
+        usData << "UK-time: " << "Task " << "[" << i<< "]" << " " << timer[i].hours << " hr " << timer[i].minutes << " min " << timer[i].seconds << " sec " << endl;
+    }
+
+    usData << "The winner is: " << player->winner << endl;
+    usData << ":::::::::::::::::::::::::::::::::" << endl;
+    usData.close();
+}
+
+void storeGermanData(OPTION2PLAYERS* player, int option1counter, int option1points, int option1CordinatesCounter, TIMELIMIT* timer, int timercounter)
+{
+    ofstream usData;
+    usData.open("Data\\dataStore.txt", ios::out | ios::app);
+
+    usData << "Date: " << __TIMESTAMP__ << endl;
+
+    for (int i = 0; i < option1counter; i++)
+    {
+        usData << "German-player: " << player[i].codewriterusername << endl;
+    }
+    
+    //for (auto i = player[option1CordinatesCounter].cordinates.begin(); i < player[option1CordinatesCounter].cordinates.end(); i++)
+    //{
+        //usData << "German-cordinates: " << player[i].cordinates << endl;
+    //}
+    usData.close();
+
+    storeUkData(player, option1counter, option1points, timer, timercounter);
+}
+
+void timerFunction(clock_t time, TIMELIMIT* timer, int& timercounter)
+{
+    time = clock() - time;
+    int sec = (int)time / CLOCKS_PER_SEC;
+    int min = 0;
+    int hr = 0;
+    min = sec / 60;
+    hr = min / 60;
+
+    cout << endl;
+
+    timer[timercounter].hours = int(hr);
+    timer[timercounter].minutes = int(min % 60);
+    timer[timercounter].seconds = int(sec % 60);
+    timercounter++;
 }
 
 void exit()
@@ -536,25 +599,7 @@ void checkingCoordinatesTask2(bool& flag, vector <char> codeBreakerRepeatable, v
     }
 }
 
-void timerFunction(clock_t time, TIMELIMIT* timer, int& timercounter)
-{
-    time = clock() - time;
-    int sec = (int)time / CLOCKS_PER_SEC;
-    int min = 0;
-    int hr = 0;
-    min = sec / 60;
-    hr = min / 60;
-
-    cout << endl;
-
-    timer[timercounter].hours = int(hr); 
-    timer[timercounter].minutes = int(min % 60); 
-    timer[timercounter].seconds = int(sec % 60);
-    timercounter++;
-}
-
-
-void repeatFunctionsTask2(OPTION2PLAYERS* player, int option1counter, vector <int> var, int& counterTries1, int& option1CordinatesCounter, TIMELIMIT* timer, int timercounter)
+void repeatFunctionsTask2(OPTION2PLAYERS* player, int option1counter, int option1points, vector <int> var, int& counterTries1, int& option1CordinatesCounter, TIMELIMIT* timer, int& timercounter)
 {
     counterTries1 = 0;
 
@@ -611,17 +656,28 @@ void repeatFunctionsTask2(OPTION2PLAYERS* player, int option1counter, vector <in
             cout << "You have reached your limits of attempt. You lost!" << endl;
             cout << "|------------------------------------------------|" << endl;
             flag = true;
-
-            cout << "Your time is: " << (timer[0].hours + timer[1].hours) << " hr " << (timer[0].minutes + timer[1].minutes) << " min " << (timer[0].seconds + timer[1].seconds) << " sec " << endl;
-            cout << "Points: " << player->codewriterpoints;
-            // Tuka da che codebreakera e zagubil a codewriter e spechelil
+            flagLost = false;
         }
     }
 
-    //Tuk produljavame s dopulnenieto...
+    timerFunction(time, timer, timercounter);
+
+    if (flagLost == true)
+    {
+        cout << "You win !" << endl;
+        player->winner = player->codewriterusername + " " + "[Uk]";
+        storeGermanData(player, option1counter, option1points, option1CordinatesCounter, timer, timercounter);
+    }
+    else
+    {
+        player->winner = player->codewriterusername + " " + "[Germany]";
+        storeGermanData(player, option1counter, option1points, option1CordinatesCounter, timer, timercounter);
+    }
+
+    //Tuk se otvarq ranklist-ata
 }
 
-void storeInHtmlUk(OPTION2PLAYERS* player, int option1counter, vector <int> var, int counterTries1, int option1CordinatesCounter, TIMELIMIT* timer, int& timercounter)
+void storeInHtmlUk(OPTION2PLAYERS* player, int option1counter, int option1points, vector <int> var, int counterTries1, int option1CordinatesCounter, TIMELIMIT* timer, int& timercounter)
 {
     system("CLS");
     bool flag = false;  bool flag2 = true;
@@ -685,7 +741,6 @@ void storeInHtmlUk(OPTION2PLAYERS* player, int option1counter, vector <int> var,
             cout << "|------------------------------------------------|" << endl;
             flag = true;
             flagLost = false;
-            // Tuka da che codebreakera e zagubil a codewriter e spechelil
         }
     }
     var.clear();
@@ -694,17 +749,16 @@ void storeInHtmlUk(OPTION2PLAYERS* player, int option1counter, vector <int> var,
 
     if (flagLost == true)
     {
-        repeatFunctionsTask2(player, option1counter, var, counterTries1, option1CordinatesCounter, timer, timercounter);
+        repeatFunctionsTask2(player, option1counter, option1points, var, counterTries1,  option1CordinatesCounter, timer, timercounter);
     }
     else
     {
-        cout << "Your time is: " << timer[0].hours << " hr " << timer[0].minutes << " min " << timer[0].seconds << " sec " << endl;
-        cout << "Points: " << player->codewriterpoints;
-        //da se dobavi winner
+        player->winner = player->codewriterusername + " " + "[Germany]";
+        storeGermanData(player, option1counter, option1points, option1CordinatesCounter, timer, timercounter);
     }
 }
 
-void storeInHtmlGerman(OPTION2PLAYERS* player, int option1counter, vector <int> var, int counterTries1, int& option1CordinatesCounter, TIMELIMIT* timer, int timercounter)
+void storeInHtmlGerman(OPTION2PLAYERS* player, int option1counter, int option1points, vector <int> var, int counterTries1, int& option1CordinatesCounter, TIMELIMIT* timer, int timercounter)
 {
     system("CLS");
     bool flag = false;  bool flag2 = true;
@@ -764,7 +818,7 @@ void storeInHtmlGerman(OPTION2PLAYERS* player, int option1counter, vector <int> 
     }
     option1CordinatesCounter++;
 
-    storeInHtmlUk(player, option1counter, var, counterTries1, option1CordinatesCounter, timer, timercounter);
+    storeInHtmlUk(player, option1counter, option1points, var, counterTries1, option1CordinatesCounter, timer, timercounter);
 }
 
 void playersUsernames(OPTION2PLAYERS* player, int& option1counter, bool& flag, vector <int> var, int counterTries1, int option1CordinatesCounter, TIMELIMIT* timer, int timercounter)
@@ -811,7 +865,7 @@ void playersUsernames(OPTION2PLAYERS* player, int& option1counter, bool& flag, v
         flag = true;
 
         option1counter++;
-        storeInHtmlGerman(player, option1counter, var, counterTries1, option1CordinatesCounter, timer, timercounter);
+        storeInHtmlGerman(player, option1counter, flag, var, counterTries1, option1CordinatesCounter, timer, timercounter);
     }
 }
 
