@@ -113,7 +113,7 @@ html {
 }
 
 #section1 {
-	height: 1100px;
+	height: 1200px;
 	background-color: #fff;
 	background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(images/backGroundSec2.jpg);
 	-webkit-background-size: cover;
@@ -123,17 +123,29 @@ html {
 }
 
 .sec2 h1 {
-	margin-left: 650px;
+	margin-left: 658px;
 	font-size: 70px;
 	color: rgb(156, 156, 156);
 }
 
-.sec2 p {
-	margin-left: 600px;
-	font-size: 24px;
-	font-family: Georgia, 'Times New Roman', Times, serif;
-	color: #fff;
+.ATG {
+  margin: auto;
+  width: 40%;
+  border: 5px solid gray;
+  padding: 10px;
+   text-align: center;
+   font-size: 24px;
+   color: #fff;
+   border-style: outset;
 }
+
+.levelBorder {
+  width: 8%;
+  border: 3px solid gray;
+  margin-left:280px;
+  
+}
+
 
 .video {
 	margin-top: -500px;
@@ -142,7 +154,7 @@ html {
 .size li {
 	font-size: 30px;
 	color: #fff;
-	margin-left: 70px;
+	margin-left: 30px;
 }
 
 .size p {
@@ -150,6 +162,7 @@ html {
 	margin-left: 30px;
 	font-size: 22px;
 	color: #fff;
+	
 }
 
 video {
@@ -166,7 +179,7 @@ video {
 /*download section*/
 
 #section2 {
-	height: 650px;
+	height: 565px;
 	background-color: #fff;
 	background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(images/backGroundSec1.jpg);
 	-webkit-background-size: cover;
@@ -196,24 +209,25 @@ video {
 
 .sec3 p {
 	margin-left: 30px;
-	margin-top: 100px;
-	font-size: 32px;
+	margin-top: 8px;
+	font-size: 22px;
 	font-family: Georgia, 'Times New Roman', Times, serif;
 	color: #fff;
+	
 }
 
 .sec3 h1 {
 	font-size: 70px;
 	font-family: Georgia, 'Times New Roman', Times, serif;
 	color: #b1b1b1;
-	margin-left: 600px;
+	margin-left: 658px;
 }
 
 .sec3 h6 {
 	margin-left: 30px;
 	margin-top: 200px;
 	color: #fff;
-	font-size: 24px;
+	font-size: 22px;
 	font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
@@ -221,3 +235,5 @@ video {
 	margin-left: 1550px;
 	margin-top: -200px;
 }
+
+	
