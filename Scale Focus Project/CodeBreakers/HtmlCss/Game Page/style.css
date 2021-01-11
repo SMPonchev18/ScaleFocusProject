@@ -13,7 +13,7 @@ body {
 }
 
 header {
-	background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(battleShip2.jpg);
+	background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(images/homeBackGround.jpg);
 	height: 100vh;
 	-webkit-background-size: cover;
 	background-size: cover;
@@ -115,7 +115,7 @@ html {
 #section1 {
 	height: 1100px;
 	background-color: #fff;
-	background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(2.jpg);
+	background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(images/backGroundSec2.jpg);
 	-webkit-background-size: cover;
 	background-size: cover;
 	background-position: center center;
@@ -168,7 +168,7 @@ video {
 #section2 {
 	height: 650px;
 	background-color: #fff;
-	background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(22.jpg);
+	background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(images/backGroundSec1.jpg);
 	-webkit-background-size: cover;
 	background-size: cover;
 	background-position: center center;
