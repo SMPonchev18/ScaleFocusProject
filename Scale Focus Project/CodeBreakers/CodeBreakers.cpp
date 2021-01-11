@@ -665,7 +665,7 @@ void repeatFunctionsTask2(OPTION2PLAYERS* player, int option1counter, int option
     if (flagLost == true)
     {
         cout << "You win !" << endl;
-        player->winner = player->codewriterusername + " " + "[Uk]";
+        player->winner = player->codebreakerusername + " " + "[Uk]";
         storeGermanData(player, option1counter, option1points, option1CordinatesCounter, timer, timercounter);
     }
     else

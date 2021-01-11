@@ -1,40 +1,8 @@
-
-Date: Mon Jan 11 12:34:17 2021
-German-player: 2
-UK-player: 3
-UK-Points: 100
-UK-time: Task [0] 0 hr 0 min 1 sec 
-UK-time: Task [1] 0 hr 0 min 1 sec 
-The winner is: 3 [UK]
-:::::::::::::::::::::::::::::::::
-Date: Mon Jan 11 12:34:17 2021
-German-player: 123
-UK-player: 4444
-UK-Points: 100
-UK-time: Task [0] 0 hr 0 min 0 sec 
-UK-time: Task [1] 0 hr 0 min 11 sec 
-The winner is: 4444 [UK]
-:::::::::::::::::::::::::::::::::
-Date: Mon Jan 11 12:40:49 2021
-German-player: 1234
-UK-player: 5555
+Date: Mon Jan 11 12:50:56 2021
+German-player: nako
+UK-player: shibeka
 UK-Points: 90
-UK-time: Task [0] 0 hr 0 min 6 sec 
-The winner is: 1234 [Germany]
-:::::::::::::::::::::::::::::::::
-Date: Mon Jan 11 12:40:49 2021
-German-player: nak
-UK-player: sss
-UK-Points: 76
-UK-time: Task [0] 0 hr 0 min 0 sec 
-UK-time: Task [1] 0 hr 0 min 6 sec 
-The winner is: nak [Germany]
-:::::::::::::::::::::::::::::::::
-Date: Mon Jan 11 12:40:49 2021
-German-player: MAkera
-UK-player: DJomandjii
-UK-Points: 87
-UK-time: Task [0] 0 hr 0 min 3 sec 
+UK-time: Task [0] 0 hr 0 min 11 sec 
 UK-time: Task [1] 0 hr 0 min 28 sec 
-The winner is: MAkera [Uk]
+The winner is: shibeka [Uk]
 :::::::::::::::::::::::::::::::::
