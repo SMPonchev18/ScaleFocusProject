@@ -33,24 +33,56 @@ body {
     place-items: center;
 }
 
+.body4
+{
+    background-size: cover;
+    height: 100vh;
+    margin: 0;
+    display: grid;
+    place-items: center;
+}
+
+Canvas 
+{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
 .container
 {
     background-color: rgba(255, 255, 255, 0.95);
-    border-radius: 5px;
+    border-radius: 20px;
     color: #333;
     line-height: 1.5;
     max-width: 50%;
     padding: 1rem 2rem;
-    
+}
+
+.container hr
+{
+    border-width: 3px;
+}
+
+h1
+{
+    font-size: 4em;
+    text-decoration: whitesmoke;
+    text-align: center;
+    color: #555;
+    transform: translateY(auto);
+    font-family: "Sofia";
 }
 
 .container h1
 {
     margin: 0;
     padding: 0;
-    font-family: arial;
-    font-size: 3em;
-    text-decoration: black;
+    font-size: 2em;
+    text-decoration: whitesmoke;
     text-align: center;
     top: auto;
     color: #555;
@@ -62,6 +94,56 @@ body {
 {
     font-family: "Lucida Console";
     font-size: 1.5em;
+}
+
+.IDDate
+{
+    background-color: rgba(255, 255, 255, 0.95);
+    color: #333;
+    border: 2px solid #fff;
+    border-radius: 10px;
+    padding: 5px;
+    position: auto;
+}
+
+.IDCordinates
+{
+    background-color: rgba(255, 255, 255, 0.95);
+    color: #333;
+    border: 2px solid #fff;
+    border-radius: 10px;
+    padding: 5px;
+    position: auto;
+}
+
+.IDPoints
+{
+    background-color: rgba(255, 255, 255, 0.95);
+    color: #333;
+    border: 2px solid #fff;
+    border-radius: 10px;
+    padding: 5px;
+    position: auto;
+}
+
+.IDTime
+{
+    background-color: rgba(255, 255, 255, 0.95);
+    color: #333;
+    border: 2px solid #fff;
+    border-radius: 10px;
+    padding: 5px;
+    position: auto;
+}
+
+.IDWinner
+{
+    background-color: rgba(255, 255, 255, 0.95);
+    color: #333;
+    border: 2px solid #fff;
+    border-radius: 10px;
+    padding: 5px;
+    position: auto;
 }
 
 @supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) 

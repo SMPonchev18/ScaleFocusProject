@@ -12,6 +12,7 @@ using namespace std;
 bool showMainMenu = true;
 bool flagLost = true;
 
+//|||==============================STRUCTURES LAYER==============================|||//
 struct TIMELIMIT
 {
     int hours;
@@ -26,10 +27,14 @@ struct OPTION2PLAYERS
     string winner;
 
     vector<char> cordinates;
+    vector<int> cordinates2;
 
     int codewriterpoints = 100;
 };
+//|||==============================STRUCTURES LAYER==============================|||//
 
+
+//|||==============================CHECKING LAYER==============================|||//
 void checkM(int& a)
 {
     while (1)
@@ -45,7 +50,10 @@ void checkM(int& a)
         if (!cin.fail()) break;
     }
 }
+//|||==============================CHECKING LAYER==============================|||//
 
+
+//|||==============================DATA LAYER==============================|||//
 void storeUkData(OPTION2PLAYERS* player, int option1counter, int option1points, TIMELIMIT* timer, int timercounter)
 {
     ofstream usData;
@@ -62,7 +70,7 @@ void storeUkData(OPTION2PLAYERS* player, int option1counter, int option1points, 
 
     for (int i = 0; i < timercounter; i++)
     {
-        usData << "UK-time: " << "Task " << "[" << i<< "]" << " " << timer[i].hours << " hr " << timer[i].minutes << " min " << timer[i].seconds << " sec " << endl;
+        usData << "UK-time: " << "Task " << "[" << i << "]" << " " << timer[i].hours << " hr " << timer[i].minutes << " min " << timer[i].seconds << " sec " << endl;
     }
 
     usData << "The winner is: " << player->winner << endl;
@@ -81,16 +89,14 @@ void storeGermanData(OPTION2PLAYERS* player, int option1counter, int option1poin
     {
         usData << "German-player: " << player[i].codewriterusername << endl;
     }
-    
-    //for (auto i = player[option1CordinatesCounter].cordinates.begin(); i < player[option1CordinatesCounter].cordinates.end(); i++)
-    //{
-        //usData << "German-cordinates: " << player[i].cordinates << endl;
-    //}
     usData.close();
 
     storeUkData(player, option1counter, option1points, timer, timercounter);
 }
+//|||==============================DATA LAYER==============================|||//
 
+
+//|||==============================TIMER LAYER==============================|||//
 void timerFunction(clock_t time, TIMELIMIT* timer, int& timercounter)
 {
     time = clock() - time;
@@ -107,7 +113,10 @@ void timerFunction(clock_t time, TIMELIMIT* timer, int& timercounter)
     timer[timercounter].seconds = int(sec % 60);
     timercounter++;
 }
+//|||==============================TIMER LAYER==============================|||//
 
+
+//|||==============================EXIT LAYER==============================|||//
 void exit()
 {
     system("CLS");
@@ -116,11 +125,12 @@ void exit()
     cout << "Exit process remaining.." << endl;
     cout << "|-----------------------|" << endl;
 }
+//|||==============================EXIT LAYER==============================|||//
+
 
 //-------------------------------- Option 1 --------------------------------
 
-//====================================Task1====================================
-
+//|||==============================TASk1 LAYER==============================|||//
 vector <char> inputGerman()
 {
     char numberGerman;
@@ -383,9 +393,10 @@ void checkingCoordinates(bool& flag, vector <char> codeBreaker, vector <char> Ge
         }
     }
 }
+//|||==============================TASK1 LAYER==============================|||//
 
-//====================================Task2====================================
 
+//|||==============================TASK2 LAYER==============================|||//
 void germanQoteTask2(bool& flag, bool flagRange, vector <char> germanRepeatable, vector <int>& varRepeatable)
 {
     char wrongElements[26] = { '!', '"', '#', '$','%','&','(',')','*','+',',','-','`','~','.',';',':','<','>','=','_','@','?','|','/','^' };
@@ -598,7 +609,89 @@ void checkingCoordinatesTask2(bool& flag, vector <char> codeBreakerRepeatable, v
         }
     }
 }
+//|||==============================TASK2 LAYER==============================|||//
 
+void storeHtmlRankListFirstTime(OPTION2PLAYERS* player, int option1counter, int option1points, int counterTries1, TIMELIMIT* timer, int timercounter)
+{
+    system("CLS");
+    ofstream web4;
+    web4.open("HtmlCss\\ranklist.html", ios::out | ios::app);
+
+    web4 << "<!DOCTYPE html>"
+            "<html lang=\"en\">"
+            "   <head>"
+            "       <meta charset=\"utf-8\">"
+            "       <title>Welcome to my website</title>"
+            "       <link rel=\"stylesheet\" href=\"style.css\">"
+            "       <link rel=\"app\" href=\"app.js\">"
+            "       <iframe width=\"0\" height=\"0\" src=\"Music\\Champions.mp3\" frameborder=\"0\" allowfullscreen></iframe>"
+            "   </head>"
+            "   <body class =\"body4\">";
+            "       <h1>RankList</h1>"
+            "       <canvas id=\"Canvas\"></canvas>"
+            "       <script src=\"app.js\"></script>";
+            for (int i = 0; i < option1counter; i++)
+            {
+                web4 << "   <div class =\"container\">"
+                        "           <hr>"
+                        "           <h1>" << player[i].codewriterusername << " [Germany]" << "</h1>"
+                        "           <h1>vs</h1>"
+                        "           <h1>" << player[i].codebreakerusername << "[UK]" << "</h1>"
+                        "           <hr>"
+                        "           <p><span class=\"IDDate\">" << "Date: " << __TIMESTAMP__ << "</span></p>"
+                        "           <p><span class=\"IDPoints\">" << "Points: " << player[i].codewriterpoints << "</span></p>"
+                        "           <p><span class=\"IDTime\">" << "Timer: " << timer[0].hours << " hr " << timer[0].minutes << " min " << timer[0].seconds << " sec " << "</span></p>"
+                        "           <p><span class=\"IDWinner\">" << "Winner: " << player->winner << "</span></p>"
+                        "       </div>";
+            }
+    web4 << "</body></html>";
+    web4.close();
+
+    system("HtmlCss\\ranklist.html");
+
+}
+
+void storeHtmlRankList(OPTION2PLAYERS* player, int option1counter, int option1points, int counterTries1, TIMELIMIT* timer, int timercounter)
+{
+    system("CLS");
+    ofstream web4;
+    web4.open("HtmlCss\\ranklist.html", ios::out | ios::app);
+
+    web4 << "<!DOCTYPE html>"
+            "<html lang=\"en\">"
+            "   <head>"
+            "       <meta charset=\"utf-8\">"
+            "       <title>Welcome to my website</title>"
+            "       <link rel=\"stylesheet\" href=\"style.css\">"
+            "       <link rel=\"app\" href=\"app.js\">"
+            "       <iframe width=\"0\" height=\"0\" src=\"Music\\Champions.mp3\" frameborder=\"0\" allowfullscreen></iframe>"
+            "   </head>"
+            "   <body class =\"body4\">";
+            "       <h1>RankList</h1>"
+            "       <canvas id=\"Canvas\"></canvas>"
+            "       <script src=\"app.js\"></script>";
+            for (int i = 0; i < option1counter; i++)
+            {
+                web4 << "   <div class =\"container\">"
+                        "           <hr>"
+                        "           <h1>" << player[i].codewriterusername << " [Germany]" << "</h1>"
+                        "           <h1>vs</h1>"
+                        "           <h1>" << player[i].codebreakerusername << "[UK]" << "</h1>"
+                        "           <hr>"
+                        "           <p><span class=\"IDDate\">" << "Date: " << __TIMESTAMP__ << "</span></p>"
+                        "           <p><span class=\"IDPoints\">" << "Points: " << player[i].codewriterpoints << "</span></p>"
+                        "           <p><span class=\"IDTime\">" << "Timer: " << (timer[0].hours+ timer[1].hours) << " hr " << (timer[0].minutes+timer[1].minutes) << " min " << (timer[0].seconds+timer[1].seconds) << " sec " << "</span></p>"
+                        "           <p><span class=\"IDWinner\">" << "Winner: " << player->winner << "</span></p>"
+                        "       </div>";
+            }
+    web4 << "</body></html>";
+    web4.close();
+
+    system("HtmlCss\\ranklist.html");
+
+}
+
+//|||==============================FUNCTION LAYER==============================|||//
 void repeatFunctionsTask2(OPTION2PLAYERS* player, int option1counter, int option1points, vector <int> var, int& counterTries1, int& option1CordinatesCounter, TIMELIMIT* timer, int& timercounter)
 {
     counterTries1 = 0;
@@ -667,14 +760,14 @@ void repeatFunctionsTask2(OPTION2PLAYERS* player, int option1counter, int option
         cout << "You win !" << endl;
         player->winner = player->codebreakerusername + " " + "[Uk]";
         storeGermanData(player, option1counter, option1points, option1CordinatesCounter, timer, timercounter);
+        storeHtmlRankList(player, option1counter, option1points, counterTries1, timer, timercounter);
     }
     else
     {
         player->winner = player->codewriterusername + " " + "[Germany]";
         storeGermanData(player, option1counter, option1points, option1CordinatesCounter, timer, timercounter);
+        storeHtmlRankList(player, option1counter, option1points, counterTries1, timer, timercounter);
     }
-
-    //Tuk se otvarq ranklist-ata
 }
 
 void storeInHtmlUk(OPTION2PLAYERS* player, int option1counter, int option1points, vector <int> var, int counterTries1, int option1CordinatesCounter, TIMELIMIT* timer, int& timercounter)
@@ -755,6 +848,7 @@ void storeInHtmlUk(OPTION2PLAYERS* player, int option1counter, int option1points
     {
         player->winner = player->codewriterusername + " " + "[Germany]";
         storeGermanData(player, option1counter, option1points, option1CordinatesCounter, timer, timercounter);
+        storeHtmlRankListFirstTime(player, option1counter, option1points, counterTries1, timer, timercounter);
     }
 }
 
@@ -887,7 +981,10 @@ void twoPlayers(OPTION2PLAYERS* player, int& option1counter, vector <int> var, i
 
     enterPlayersUsernames(player, option1counter, var, counterTries1, option1CordinatesCounter, timer, timercounter);
 }
+//|||==============================FUNCTION LAYER==============================|||//
 
+
+//|||==============================MENU LAYER==============================|||//
 bool mainMenu(OPTION2PLAYERS* player, int option1counter, vector <int> var, int counterTries1, int option1CordinatesCounter, TIMELIMIT* timer, int timercounter)
 {
     cout << endl;
@@ -927,8 +1024,10 @@ bool mainMenu(OPTION2PLAYERS* player, int option1counter, vector <int> var, int 
     }
     return true;
 }
+//|||==============================MENU LAYER==============================|||//
 
 
+//|||==============================MAIN LAYER==============================|||//
 int main()
 {
     OPTION2PLAYERS player[50];
@@ -947,3 +1046,4 @@ int main()
         showMainMenu = mainMenu(player, option1counter, var, counterTries1, option1CordinatesCounter, timer, timercounter);
     } while (showMainMenu != false);
 }
+//|||==============================MAIN LAYER==============================|||//

@@ -4,7 +4,12 @@
 }
 
 body {
-	font-family: 'Poppins', sans-serif;
+	background-position: center center;
+    	background-repeat: no-repeat;
+    	background-size: cover;
+    	height: 100vh;
+    	margin: 0;
+    	display: grid;
 }
 
 .wrapper {
@@ -129,7 +134,8 @@ html {
 }
 
 .sec2 p {
-	margin-left: 600px;
+	font-family: Georgia, 'Times New Roman', Times, serif;
+	margin-left: 650px;
 	font-size: 24px;
 	font-family: Georgia, 'Times New Roman', Times, serif;
 	color: #fff;
@@ -171,7 +177,6 @@ video {
 	background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(22.jpg);
 	-webkit-background-size: cover;
 	background-size: cover;
-	background-position: center center;
 	position: relative;
 }
 

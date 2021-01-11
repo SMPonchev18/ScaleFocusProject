@@ -1,8 +1,23 @@
-Date: Mon Jan 11 12:50:56 2021
-German-player: nako
-UK-player: shibeka
-UK-Points: 90
-UK-time: Task [0] 0 hr 0 min 11 sec 
-UK-time: Task [1] 0 hr 0 min 28 sec 
-The winner is: shibeka [Uk]
+Date: Mon Jan 11 21:34:11 2021
+German-player: Nako
+UK-player: Tibishira
+UK-Points: 87
+UK-time: Task [0] 0 hr 0 min 20 sec 
+The winner is: Nako [Germany]
+:::::::::::::::::::::::::::::::::
+Date: Mon Jan 11 21:34:11 2021
+German-player: Nako
+UK-player: Burmov
+UK-Points: 75
+UK-time: Task [0] 0 hr 0 min 3 sec 
+UK-time: Task [1] 0 hr 0 min 6 sec 
+The winner is: Nako [Germany]
+:::::::::::::::::::::::::::::::::
+Date: Mon Jan 11 21:34:11 2021
+German-player: Valio
+UK-player: Petrov
+UK-Points: 92
+UK-time: Task [0] 0 hr 0 min 5 sec 
+UK-time: Task [1] 0 hr 0 min 8 sec 
+The winner is: Petrov [Uk]
 :::::::::::::::::::::::::::::::::
