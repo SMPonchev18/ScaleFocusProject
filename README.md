@@ -1,6 +1,6 @@
 # CodeBreakers
 
-1. [Describtion of the project] (#team)
+1. [Describtion of the project](#team)
 2. [Our Team](#team)
 
 
