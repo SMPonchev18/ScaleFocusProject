@@ -6,13 +6,33 @@
 #include <cmath>
 #include <vector>
 #include <stdio.h> 
-#include <time.h> 
+#include <time.h>
+#include <random>
 using namespace std;
 
 bool showMainMenu = true;
 bool flagLost = true;
 
 //|||==============================STRUCTURES LAYER==============================|||//
+
+struct TIMELIMIT2
+{
+    int hours;
+    int minutes;
+    int seconds;
+};
+
+struct OPTIONCOMPUTER
+{
+    string codebreakerusername2;
+
+    vector<int> cordinates2;
+
+    int codebreakerpoints = 100;
+
+    string winner;
+};
+
 struct TIMELIMIT
 {
     int hours;
@@ -27,7 +47,6 @@ struct OPTION2PLAYERS
     string winner;
 
     vector<char> cordinates;
-    vector<int> cordinates2;
 
     int codewriterpoints = 100;
 };
@@ -54,6 +73,33 @@ void checkM(int& a)
 
 
 //|||==============================DATA LAYER==============================|||//
+
+void storeUkDataOption2(OPTIONCOMPUTER* computer, TIMELIMIT2* timer2, int timercounter2)
+{
+    ofstream ukData;
+    ukData.open("Data\\dataStore2.txt", ios::out | ios::app);
+
+    ukData << "Date: " << __TIMESTAMP__ << endl;
+
+    for (int i = 0; i < 1; i++)
+    {
+        ukData << "UK-player: " << computer[i].codebreakerusername2 << endl;
+    }
+
+    ukData << "UK-Points: " << computer->codebreakerpoints << endl;
+
+    for (int i = 0; i < timercounter2; i++)
+    {
+        ukData << "UK-time: " << "Task " << "[" << i << "]" << " " << timer2[i].hours << " hr " << timer2[i].minutes << " min " << timer2[i].seconds << " sec " << endl;
+    }
+
+    ukData << "The winner is: " << computer->winner << endl;
+    ukData << ":::::::::::::::::::::::::::::::::" << endl;
+    ukData.close();
+}
+
+//------------------------------------------Option 2---------------------------------------------\\
+
 void storeUkData(OPTION2PLAYERS* player, int option1counter, int option1points, TIMELIMIT* timer, int timercounter)
 {
     ofstream usData;
@@ -93,10 +139,31 @@ void storeGermanData(OPTION2PLAYERS* player, int option1counter, int option1poin
 
     storeUkData(player, option1counter, option1points, timer, timercounter);
 }
+
+//------------------------------------------Option 2---------------------------------------------
+
 //|||==============================DATA LAYER==============================|||//
 
 
 //|||==============================TIMER LAYER==============================|||//
+
+void timerFunction2(clock_t time, TIMELIMIT2* timer2, int& timercounter2)
+{
+    time = clock() - time;
+    int sec = (int)time / CLOCKS_PER_SEC;
+    int min = 0;
+    int hr = 0;
+    min = sec / 60;
+    hr = min / 60;
+
+    cout << endl;
+
+    timer2[timercounter2].hours = int(hr);
+    timer2[timercounter2].minutes = int(min % 60);
+    timer2[timercounter2].seconds = int(sec % 60);
+    timercounter2++;
+}
+
 void timerFunction(clock_t time, TIMELIMIT* timer, int& timercounter)
 {
     time = clock() - time;
@@ -272,7 +339,7 @@ void checkingCoordinates(bool& flag, vector <char> codeBreaker, vector <char> Ge
     {
         if (counterTries1 == i)
         {
-            points = points - 1;
+            points = points - 4;
         }
     }
 
@@ -486,7 +553,7 @@ void checkingCoordinatesTask2(bool& flag, vector <char> codeBreakerRepeatable, v
     {
         if (counterTries2 == i)
         {
-            points = points - 2;
+            points = points - 3;
         }
     }
 
@@ -603,7 +670,7 @@ void checkingCoordinatesTask2(bool& flag, vector <char> codeBreakerRepeatable, v
         {
             cout << endl;
             cout << "|-------------------------|" << endl;
-            cout << "     Incorrect Input!"<< endl;
+            cout << "     Incorrect Input!" << endl;
             cout << "        Try again!" << endl;
             cout << "|-------------------------|" << endl;
         }
@@ -618,32 +685,31 @@ void storeHtmlRankListFirstTime(OPTION2PLAYERS* player, int option1counter, int 
     web4.open("HtmlCss\\ranklist.html", ios::out | ios::app);
 
     web4 << "<!DOCTYPE html>"
-            "<html lang=\"en\">"
-            "   <head>"
-            "       <meta charset=\"utf-8\">"
-            "       <title>Welcome to my website</title>"
-            "       <link rel=\"stylesheet\" href=\"style.css\">"
-            "       <link rel=\"app\" href=\"app.js\">"
-            "       <iframe width=\"0\" height=\"0\" src=\"Music\\Champions.mp3\" frameborder=\"0\" allowfullscreen></iframe>"
-            "   </head>"
-            "   <body class =\"body4\">";
-            "       <h1>RankList</h1>"
-            "       <canvas id=\"Canvas\"></canvas>"
-            "       <script src=\"app.js\"></script>";
-            for (int i = 0; i < option1counter; i++)
-            {
-                web4 << "   <div class =\"container\">"
-                        "           <hr>"
-                        "           <h1>" << player[i].codewriterusername << " [Germany]" << "</h1>"
-                        "           <h1>vs</h1>"
-                        "           <h1>" << player[i].codebreakerusername << "[UK]" << "</h1>"
-                        "           <hr>"
-                        "           <p><span class=\"IDDate\">" << "Date: " << __TIMESTAMP__ << "</span></p>"
-                        "           <p><span class=\"IDPoints\">" << "Points: " << player[i].codewriterpoints << "</span></p>"
-                        "           <p><span class=\"IDTime\">" << "Timer: " << timer[0].hours << " hr " << timer[0].minutes << " min " << timer[0].seconds << " sec " << "</span></p>"
-                        "           <p><span class=\"IDWinner\">" << "Winner: " << player->winner << "</span></p>"
-                        "       </div>";
-            }
+        "<html lang=\"en\">"
+        "   <head>"
+        "       <meta charset=\"utf-8\">"
+        "       <title>Welcome to my website</title>"
+        "       <link rel=\"stylesheet\" href=\"style.css\">"
+        "       <link rel=\"app\" href=\"app.js\">"
+        "   </head>"
+        "   <body class =\"body4\">";
+    "       <h1>RankList</h1>"
+        "       <canvas id=\"Canvas\"></canvas>"
+        "       <script src=\"app.js\"></script>";
+    for (int i = 0; i < option1counter; i++)
+    {
+        web4 << "   <div class =\"container\">"
+            "           <hr>"
+            "           <h1>" << player[i].codewriterusername << " [Germany]" << "</h1>"
+            "           <h1>vs</h1>"
+            "           <h1>" << player[i].codebreakerusername << "[UK]" << "</h1>"
+            "           <hr>"
+            "           <p><span class=\"IDDate\">" << "Date: " << __TIMESTAMP__ << "</span></p>"
+            "           <p><span class=\"IDPoints\">" << "Points: " << player[i].codewriterpoints << "</span></p>"
+            "           <p><span class=\"IDTime\">" << "Timer: " << timer[0].hours << " hr " << timer[0].minutes << " min " << timer[0].seconds << " sec " << "</span></p>"
+            "           <p><span class=\"IDWinner\">" << "Winner: " << player->winner << "</span></p>"
+            "       </div>";
+    }
     web4 << "</body></html>";
     web4.close();
 
@@ -658,32 +724,31 @@ void storeHtmlRankList(OPTION2PLAYERS* player, int option1counter, int option1po
     web4.open("HtmlCss\\ranklist.html", ios::out | ios::app);
 
     web4 << "<!DOCTYPE html>"
-            "<html lang=\"en\">"
-            "   <head>"
-            "       <meta charset=\"utf-8\">"
-            "       <title>Welcome to my website</title>"
-            "       <link rel=\"stylesheet\" href=\"style.css\">"
-            "       <link rel=\"app\" href=\"app.js\">"
-            "       <iframe width=\"0\" height=\"0\" src=\"Music\\Champions.mp3\" frameborder=\"0\" allowfullscreen></iframe>"
-            "   </head>"
-            "   <body class =\"body4\">";
-            "       <h1>RankList</h1>"
-            "       <canvas id=\"Canvas\"></canvas>"
-            "       <script src=\"app.js\"></script>";
-            for (int i = 0; i < option1counter; i++)
-            {
-                web4 << "   <div class =\"container\">"
-                        "           <hr>"
-                        "           <h1>" << player[i].codewriterusername << " [Germany]" << "</h1>"
-                        "           <h1>vs</h1>"
-                        "           <h1>" << player[i].codebreakerusername << "[UK]" << "</h1>"
-                        "           <hr>"
-                        "           <p><span class=\"IDDate\">" << "Date: " << __TIMESTAMP__ << "</span></p>"
-                        "           <p><span class=\"IDPoints\">" << "Points: " << player[i].codewriterpoints << "</span></p>"
-                        "           <p><span class=\"IDTime\">" << "Timer: " << (timer[0].hours+ timer[1].hours) << " hr " << (timer[0].minutes+timer[1].minutes) << " min " << (timer[0].seconds+timer[1].seconds) << " sec " << "</span></p>"
-                        "           <p><span class=\"IDWinner\">" << "Winner: " << player->winner << "</span></p>"
-                        "       </div>";
-            }
+        "<html lang=\"en\">"
+        "   <head>"
+        "       <meta charset=\"utf-8\">"
+        "       <title>Welcome to my website</title>"
+        "       <link rel=\"stylesheet\" href=\"style.css\">"
+        "       <link rel=\"app\" href=\"app.js\">"
+        "   </head>"
+        "   <body class =\"body4\">";
+    "       <h1>RankList</h1>"
+        "       <canvas id=\"Canvas\"></canvas>"
+        "       <script src=\"app.js\"></script>";
+    for (int i = 0; i < option1counter; i++)
+    {
+        web4 << "   <div class =\"container\">"
+            "           <hr>"
+            "           <h1>" << player[i].codewriterusername << " [Germany]" << "</h1>"
+            "           <h1>vs</h1>"
+            "           <h1>" << player[i].codebreakerusername << "[UK]" << "</h1>"
+            "           <hr>"
+            "           <p><span class=\"IDDate\">" << "Date: " << __TIMESTAMP__ << "</span></p>"
+            "           <p><span class=\"IDPoints\">" << "Points: " << player[i].codewriterpoints << "</span></p>"
+            "           <p><span class=\"IDTime\">" << "Timer: " << (timer[0].hours + timer[1].hours) << " hr " << (timer[0].minutes + timer[1].minutes) << " min " << (timer[0].seconds + timer[1].seconds) << " sec " << "</span></p>"
+            "           <p><span class=\"IDWinner\">" << "Winner: " << player->winner << "</span></p>"
+            "       </div>";
+    }
     web4 << "</body></html>";
     web4.close();
 
@@ -842,7 +907,7 @@ void storeInHtmlUk(OPTION2PLAYERS* player, int option1counter, int option1points
 
     if (flagLost == true)
     {
-        repeatFunctionsTask2(player, option1counter, option1points, var, counterTries1,  option1CordinatesCounter, timer, timercounter);
+        repeatFunctionsTask2(player, option1counter, option1points, var, counterTries1, option1CordinatesCounter, timer, timercounter);
     }
     else
     {
@@ -876,7 +941,7 @@ void storeInHtmlGerman(OPTION2PLAYERS* player, int option1counter, int option1po
             "               Your role is to protect Germans!"
             "               You have to set up a combination of 4 numbers."
             "               These numbers are going to be the coordinates of your Battleship!"
-            "               According to your task they can be repeatable and non repeatable."              
+            "               According to your task they can be repeatable and non repeatable."
             "               They should be in a range from 0 to 7!"
             "               Come on! We don't have any time to waste.."
             "           </p1>"
@@ -984,8 +1049,583 @@ void twoPlayers(OPTION2PLAYERS* player, int& option1counter, vector <int> var, i
 //|||==============================FUNCTION LAYER==============================|||//
 
 
+//----------------------------------------------------------------------Level1----------------------------------------------------------------------\\
+
+void storeHtmlRankListFirstTime2(OPTIONCOMPUTER* computer,TIMELIMIT2* timer2, int timercounter2)
+{
+    system("CLS");
+    ofstream web4;
+    web4.open("HtmlCss\\ranklist.html", ios::out | ios::app);
+
+    web4 << "<!DOCTYPE html>"
+        "<html lang=\"en\">"
+        "   <head>"
+        "       <meta charset=\"utf-8\">"
+        "       <title>Welcome to my website</title>"
+        "       <link rel=\"stylesheet\" href=\"style.css\">"
+        "       <link rel=\"app\" href=\"app.js\">"
+        "   </head>"
+        "   <body class =\"body4\">";
+    "       <h1>RankList</h1>"
+        "       <canvas id=\"Canvas\"></canvas>"
+        "       <script src=\"app.js\"></script>";
+    for (int i = 0; i < timercounter2; i++)
+    {
+        web4 << "   <div class =\"container\">"
+            "           <hr>"
+            "           <h1>"<<"[Germany]"<<"</h1>"
+            "           <h1>vs</h1>"
+            "           <h1>"<< computer->codebreakerusername2 <<"[UK]"<<"</h1>"
+            "           <hr>"
+            "           <p><span class=\"IDDate\">" << "Date: " << __TIMESTAMP__ << "</span></p>"
+            "           <p><span class=\"IDPoints\">" << "Points: " << computer->codebreakerpoints << "</span></p>"
+            "           <p><span class=\"IDTime\">" << "Timer: " << timer2[0].hours << " hr " << timer2[0].minutes << " min " << timer2[0].seconds << " sec " << "</span></p>"
+            "           <p><span class=\"IDWinner\">" << "Winner: " << computer->winner << "</span></p>"
+            "       </div>";
+    }
+    web4 << "</body></html>";
+    web4.close();
+
+    system("HtmlCss\\ranklist.html");
+
+}
+
+
+void storeHtmlRankList2(OPTIONCOMPUTER* computer,TIMELIMIT2* timer2, int timercounter2)
+{
+    system("CLS");
+    ofstream web4;
+    web4.open("HtmlCss\\ranklist.html", ios::out | ios::app);
+
+    web4 << "<!DOCTYPE html>"
+        "<html lang=\"en\">"
+        "   <head>"
+        "       <meta charset=\"utf-8\">"
+        "       <title>Welcome to my website</title>"
+        "       <link rel=\"stylesheet\" href=\"style.css\">"
+        "       <link rel=\"app\" href=\"app.js\">"
+        "   </head>"
+        "   <body class =\"body4\">";
+    "       <h1>RankList</h1>"
+        "       <canvas id=\"Canvas\"></canvas>"
+        "       <script src=\"app.js\"></script>";
+    for (int i = 0; i < timercounter2-1; i++)
+    {
+        web4 << "   <div class =\"container\">"
+            "           <hr>"
+            "           <h1>"<<"[Germany]"<<"</h1>"
+            "           <h1>vs</h1>"
+            "           <h1>" << computer->codebreakerusername2 << "[UK]" << "</h1>"
+            "           <hr>"
+            "           <p><span class=\"IDDate\">" << "Date: " << __TIMESTAMP__ << "</span></p>"
+            "           <p><span class=\"IDPoints\">" << "Points: " << computer->codebreakerpoints << "</span></p>"
+            "           <p><span class=\"IDTime\">" << "Timer: " << (timer2[0].hours + timer2[1].hours) << " hr " << (timer2[0].minutes + timer2[1].minutes) << " min " << (timer2[0].seconds + timer2[1].seconds) << " sec " << "</span></p>"
+            "           <p><span class=\"IDWinner\">" << "Winner: " << computer->winner << "</span></p>"
+            "       </div>";
+    }
+    web4 << "</body></html>";
+    web4.close();
+
+    system("HtmlCss\\ranklist.html");
+
+}
+
+
+void germanComp1(vector <int>& varComputer, bool& flagNonRepeatableComp)
+{
+    random_device rd;     // only used once to initialise (seed) engine
+    mt19937 rng(rd());    // random-number engine used (Mersenne-Twister in this case)
+    uniform_int_distribution<int> uni(0, 7); // guaranteed unbiased
+
+    int counterRep = 0;
+    for (int i = 0; i < 4; i++)
+    {
+        auto random = uni(rng);
+        varComputer.push_back(random);
+    }
+    for (int i = 0; i < 4; i++)
+    {
+        for (int j = i + 1; j < 4; j++)
+        {
+            if (varComputer[i] == varComputer[j])
+            {
+                counterRep++;
+            }
+        }
+    }
+    if (counterRep > 0)
+    {
+        flagNonRepeatableComp = false;
+    }
+    else
+    {
+        flagNonRepeatableComp = true;
+    }
+}
+void checkingCoordinatesComp(bool& flag, vector <char> codeBreakerComp, vector <int>& varComputer, int& points, int& counterTries3)
+{
+
+    char wrongElements[26] = { '!', '"', '#', '$','%','&','(',')','*','+',',','-','`','~','.',';',':','<','>','=','_','@','?','|','/','^' };
+    int checkingNumbers[5] = { 9,9,9,9,9 };
+    int checkingPosition[5] = { 9,9,9,9,9 };
+    int counter = 0;
+    bool flagProblem = true;
+
+    vector <int> numbersOfTheChar;
+    int counter1 = 0;
+    for (int i = 1; i <= 10; i++)
+    {
+        if (counterTries3 == i)
+        {
+            points = points - 2;
+        }
+    }
+
+    if (counterTries3 == 13)
+    {
+        cout << "You have reached your limits of attempt. You lost!" << endl;
+    }
+    else
+    {
+
+        for (int i = 0; i < 4; i++)
+        {
+            for (int j = 0; j < 26; j++)
+            {
+                if (codeBreakerComp[i] == wrongElements[j])
+                {
+                    counter1++;
+                    break;
+                }
+            }
+        }
+        for (int i = 0; i < 4; i++)
+        {
+            if ((codeBreakerComp[i] >= 'a' and codeBreakerComp[i] <= 'z') or (codeBreakerComp[i] >= 'A' and codeBreakerComp[i] <= 'Z'))
+            {
+                counter1++;
+                break;
+            }
+        }
+        if (counter1 == 0)
+        {
+            int element = 0;
+            for (int i = 0; i < 4; i++)
+            {
+                element = codeBreakerComp[i] - '0';
+                numbersOfTheChar.push_back(element);
+            }
+
+            for (int i = 0; i < 4; i++)
+            {
+                if (numbersOfTheChar[i] < 0 or numbersOfTheChar[i] > 7)
+                {
+                    cout << "Please enter 4 numbers from the range of 0-7 !" << endl;
+                    flagProblem = false;
+                    break;
+                }
+            }
+
+            if (flagProblem)
+            {
+
+                for (int i = 0; i < 4; i++)
+                {
+                    for (int j = 0; j < 4; j++)
+                    {
+                        if (numbersOfTheChar[i] == varComputer[j])
+                        {
+                            checkingNumbers[i] = numbersOfTheChar[i];
+
+                        }
+                    }
+
+                }
+                for (int i = 0; i < 4; i++)
+                {
+                    if (numbersOfTheChar[i] == varComputer[i])
+                    {
+                        checkingPosition[i] = numbersOfTheChar[i];
+                        counter++;
+                    }
+                }
+                if (counter != 4)
+                {
+                    counterTries3++;
+                    cout << endl;
+                    cout << "|------------------------------------------------------------------------------------|" << endl;
+                    cout << "That are the numbers that you guess: ";
+                    for (int i = 0; i < 4; i++)
+                    {
+                        if (checkingNumbers[i] >= 0 and checkingNumbers[i] <= 7)
+                            if (checkingNumbers[i] != 9)
+                                cout << "'" << checkingNumbers[i] << "'" << " ";
+                    }
+                    cout << endl;
+                    cout << "That are the numbers and the right position that you guess: ";
+                    for (int i = 0; i < 4; i++)
+                    {
+                        if (checkingPosition[i] >= 0 and checkingPosition[i] <= 7)
+                            if (checkingPosition[i] != 9)
+                                cout << "'" << checkingPosition[i] << "'" << " ";
+                    }
+                    cout << endl;
+                    cout << "|------------------------------------------------------------------------------------|" << endl;
+                }
+                else
+                {
+                    cout << endl;
+                    cout << "|Congratulations you guessed the coordinates! Great job! I knew you can do it.|" << endl;
+                }
+                if (counter == 4)
+                {
+                    flag = true;
+                }
+                counter = 0;
+                cout << endl;
+            }
+        }
+        else
+        {
+            cout << "Problem you enter a letter or a wrong character!";
+        }
+    }
+}
+
+
+void germanComp2(vector <int>& varComputer2)
+{
+    random_device rd;     // only used once to initialise (seed) engine
+    mt19937 rng(rd());    // random-number engine used (Mersenne-Twister in this case)
+    uniform_int_distribution<int> uni(0, 7); // guaranteed unbiased
+
+
+    for (int i = 0; i < 4; i++)
+    {
+        auto random = uni(rng);
+        varComputer2.push_back(random);
+    }
+
+}
+
+void checkingCoordinatesComp2(bool& flag, vector <char> codeBreakerComp2, vector <int>& varComputer2, int& points, int& counterTries4)
+{
+    char wrongElements[26] = { '!', '"', '#', '$','%','&','(',')','*','+',',','-','`','~','.',';',':','<','>','=','_','@','?','|','/','^' };
+
+    int checkingNumbers[5] = { 9,9,9,9,9 };
+    int checkingPosition[5] = { 9,9,9,9,9 };
+    int counter = 0;
+    bool flagProblem = true;
+
+    vector <int> numbersOfTheChar2;
+    int counter1 = 0;
+
+    for (int i = 1; i <= 13; i++)
+    {
+        if (counterTries4 == i)
+        {
+            points = points - 1;
+        }
+    }
+
+    if (counterTries4 == 13)
+    {
+        cout << "You have reached your limits of attempt. You lost!" << endl;
+    }
+    else
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            for (int j = 0; j < 26; j++)
+            {
+                if (codeBreakerComp2[i] == wrongElements[j])
+                {
+                    counter++;
+                    break;
+                }
+            }
+        }
+        for (int i = 0; i < 4; i++)
+        {
+            if ((codeBreakerComp2[i] >= 'a' and codeBreakerComp2[i] <= 'z') or (codeBreakerComp2[i] >= 'A' and codeBreakerComp2[i] <= 'Z'))
+            {
+                counter++;
+                break;
+            }
+        }
+
+        if (counter == 0)
+        {
+            int element = 0;
+            for (int i = 0; i < 4; i++)
+            {
+                element = codeBreakerComp2[i] - '0';
+                numbersOfTheChar2.push_back(element);
+            }
+
+
+
+            for (int i = 0; i < 4; i++)
+            {
+                if (numbersOfTheChar2[i] < 0 or numbersOfTheChar2[i] > 7)
+                {
+                    cout << "Please enter 4 numbers from the range of 0-7 !" << endl;
+                    flagProblem = false;
+                    break;
+                }
+            }
+
+            if (flagProblem)
+            {
+
+                for (int i = 0; i < 4; i++)
+                {
+                    for (int j = 0; j < 4; j++)
+                    {
+                        if (numbersOfTheChar2[i] == varComputer2[j])
+                        {
+                            checkingNumbers[i] = numbersOfTheChar2[i];
+
+                        }
+                    }
+
+                }
+                for (int i = 0; i < 4; i++)
+                {
+                    if (numbersOfTheChar2[i] == varComputer2[i])
+                    {
+                        checkingPosition[i] = numbersOfTheChar2[i];
+                        counter++;
+                    }
+                }
+                if (counter != 4)
+                {
+                    counterTries4++;
+                    cout << "|------------------------------------------------------------------------------------|" << endl;
+                    cout << "That are the numbers that you guess: ";
+                    for (int i = 0; i < 4; i++)
+                    {
+                        if (checkingNumbers[i] >= 0 and checkingNumbers[i] <= 7)
+                            if (checkingNumbers[i] != 9)
+                                cout << "'" << checkingNumbers[i] << "'" << " ";
+                    }
+                    cout << endl;
+                    cout << "That are the numbers and the right position that you guess: ";
+                    for (int i = 0; i < 4; i++)
+                    {
+                        if (checkingPosition[i] >= 0 and checkingPosition[i] <= 7)
+                            if (checkingPosition[i] != 9)
+                                cout << "'" << checkingPosition[i] << "'" << " ";
+                    }
+                    cout << endl;
+                    cout << "|------------------------------------------------------------------------------------|" << endl;
+                }
+                else
+                {
+                    cout << endl;
+                    cout << "|Congratulations you guessed the coordinates! Great job! I knew you can do it.|" << endl;
+                }
+                if (counter == 4)
+                {
+                    flag = true;
+                }
+                counter = 0;
+                cout << endl;
+            }
+        }
+        else
+        {
+            cout << "There is a problem you enter a letter or a wrond character!" << endl;
+        }
+    }
+}
+
+void storeHtmlGerman2Task2(OPTIONCOMPUTER* computer, int& counterTries3, TIMELIMIT2* timer2, int timercounter2)
+{
+    counterTries3 = 0;  bool flag = false;
+    germanComp2(computer->cordinates2);
+
+    clock_t time;
+    time = clock();
+
+    system("CLS");
+    cout << endl;
+    cout << "|====================GUESS===THE===CORDINATES====================|" << endl;
+    cout << "                            Task 2" << endl;
+    cout << "![Note]! The numbers in the cordinates are repeatable!" << endl;
+    cout << "![Note]! The game will take only the first 4 digits of the input." << endl;
+    cout << "|================================================================|" << endl;
+    cout << endl;
+
+    while (flag == false)
+    {
+        cout << endl;
+        cout << "|------------------------------------------------|" << endl;
+        cout << "Please enter your guess: ";
+        vector<char>codeBreakerComp2 = inputCodeBreaker();
+        cout << "|------------------------------------------------|" << endl;
+        checkingCoordinatesComp2(flag, codeBreakerComp2, computer->cordinates2, computer->codebreakerpoints, counterTries3);
+        if (counterTries3 == 13)
+        {
+            cout << endl;
+            cout << "|------------------------------------------------|" << endl;
+            cout << "You have reached your limits of attempt. You lost!" << endl;
+            cout << "|------------------------------------------------|" << endl;
+            flag = true;
+            flagLost = false;
+        }
+    }
+
+    timerFunction2(time, timer2, timercounter2);
+
+    if (flagLost == true)
+    {
+        computer->winner = computer->codebreakerusername2 + " " + "[Uk]";
+        storeUkDataOption2(computer, timer2, timercounter2);
+        storeHtmlRankList2(computer, timer2, timercounter2);
+    }
+    else
+    {
+        computer->winner = "[Germany]";
+        storeUkDataOption2(computer, timer2, timercounter2);
+        storeHtmlRankList2(computer, timer2, timercounter2);
+    }
+
+}
+
+void storeHtmlGerman2(OPTIONCOMPUTER* computer, int& counterTries3, TIMELIMIT2* timer2, int& timercounter2)
+{
+    system("CLS");
+    bool flagNonRepeatableComp = false;  bool flag = false;
+
+    ofstream web3;
+    web3.open("HtmlCss\\index3.html");
+
+    for (int i = 0; i < 1; i++)
+    {
+        web3 << "<!DOCTYPE html>"
+            "<html lang=\"en\">"
+            "   <head>"
+            "       <meta charset=\"utf-8\">"
+            "       <title>Welcome to my website</title>"
+            "       <link rel=\"stylesheet\" href=\"style.css\">"
+            "   </head>"
+            "   <body class =\"body3\">"
+            "       <div class =\"container\">"
+            "           <h1>" << "Hello, " << computer[i].codebreakerusername2 << " !" << "</h1>"
+            "           <p1>"
+            "               Your role is to help UK to find and destroy Germans battleship!"
+            "               The Germans have placed a coordinates of their Battleship!"
+            "               You have 13 tries in which you have to guess the combination of 4 numbers."
+            "               They are in the range from 0 to 7 and you have to guess the position of the number too."
+            "               The better attempts the better points! According to your attempts the game will build you score."
+            "               There is a timer which is going to start counting your time BY closing the browser."
+            "               Hurry up we are losing them! Good Luck!"
+            "           </p1>"
+            "           <h2>Remember to read the Notes from every Task!</h2>"
+            "           <pre></pre>"
+            "           <p1><u>Close the browser to continue the game..</u></p1>"
+            "           <iframe width=\"0\" height=\"0\" src=\"Music\\Uk.mp3\" frameborder=\"0\" allowfullscreen></iframe>"
+            "       </div>"
+            "   </body>"
+            "</html>";
+    }
+    web3.close();
+    system("HtmlCss\\index3.html");
+
+    while (flagNonRepeatableComp == false)
+    {
+        germanComp1(computer->cordinates2, flagNonRepeatableComp);
+    }
+
+    clock_t time;
+    time = clock();
+
+    cout << endl;
+    cout << "|====================GUESS===THE===CORDINATES====================|" << endl;
+    cout << "                           Task 1" << endl;
+    cout << "![Note]! The numbers in the cordinates can't be repeatable!" << endl;
+    cout << "![Note]! The game will take only the first 4 digits of the input." << endl;
+    cout << "|================================================================|" << endl;
+    cout << endl;
+
+    while (flag == false)
+    {
+        cout << endl;
+        cout << "|------------------------------------------------|" << endl;
+        cout << "Please enter your guess: ";
+        vector<char>codeBreakerComp = inputCodeBreaker();
+        cout << "|------------------------------------------------|" << endl;
+        checkingCoordinatesComp(flag, codeBreakerComp, computer->cordinates2, computer->codebreakerpoints, counterTries3);
+        if (counterTries3 == 13)
+        {
+            cout << endl;
+            cout << "|------------------------------------------------|" << endl;
+            cout << "You have reached your limits of attempt. You lost!" << endl;
+            cout << "|------------------------------------------------|" << endl;
+            flag = true;
+            flagLost = false;
+        }
+    }
+
+    timerFunction2(time, timer2, timercounter2);
+
+    if (flagLost == true)
+    {
+        storeHtmlGerman2Task2(computer, counterTries3, timer2, timercounter2);
+    }
+    else
+    {
+        computer->winner = "[Germany]";
+        storeUkDataOption2(computer, timer2, timercounter2);
+        storeHtmlRankListFirstTime2(computer, timer2, timercounter2);
+    }
+}
+
+void playerUsernameLevel2(OPTIONCOMPUTER* computer, bool& flag, int counterTries3, TIMELIMIT2* timer2, int timercounter2)
+{
+    cout << endl;
+    cin.ignore();
+    cout << "/-----------------------------------\\" << endl;
+    cout << "Please enter your username: " << endl;
+    cout << "Example: Atanas_Burmov" << endl;
+    cout << "UK -> "; getline(cin, computer->codebreakerusername2);
+    cout << "\\-----------------------------------/" << endl;
+
+    string str2 = " ";
+    size_t found = computer->codebreakerusername2.find(str2);
+
+    if (found != string::npos)
+    {
+        cout << endl;
+        cout << "|------------------------------------------------|" << endl;
+        cout << "There is a problem with your usernames, try again!" << endl;
+        cout << "|------------------------------------------------|" << endl;
+        cout << endl;
+    }
+    else
+    {
+        flag = true;
+        storeHtmlGerman2(computer, counterTries3, timer2, timercounter2);
+    }
+}
+
+void enterPlayersUsernames2(OPTIONCOMPUTER* computer, int counterTries3, TIMELIMIT2* timer2, int timercounter2)
+{
+    bool flag = false;
+    cout << endl;
+    system("CLS");
+    system("HtmlCss\\index.html");
+
+    while (flag == false)
+    {
+        playerUsernameLevel2(computer, flag, counterTries3, timer2, timercounter2);
+    }
+}
+
+
 //|||==============================MENU LAYER==============================|||//
-bool mainMenu(OPTION2PLAYERS* player, int option1counter, vector <int> var, int counterTries1, int option1CordinatesCounter, TIMELIMIT* timer, int timercounter)
+bool mainMenu(OPTION2PLAYERS* player, int option1counter, vector <int> var, int counterTries1, int option1CordinatesCounter, TIMELIMIT* timer, int timercounter, OPTIONCOMPUTER* computer, int counterTries3, TIMELIMIT2* timer2, int timercounter2)
 {
     cout << endl;
     cout << "/-----------------------------------\\" << endl;
@@ -1008,7 +1648,7 @@ bool mainMenu(OPTION2PLAYERS* player, int option1counter, vector <int> var, int 
         break;
 
     case 2:
-        //level2
+        enterPlayersUsernames2(computer, counterTries3, timer2, timercounter2);
         break;
 
     case 3:
@@ -1040,10 +1680,15 @@ int main()
     TIMELIMIT timer[50];
     int timercounter = 0;
 
-    //bool flagLost = true;
+    OPTIONCOMPUTER computer[50];
+
+    TIMELIMIT2 timer2[50];
+    int timercounter2 = 0;
+
+    int counterTries3 = 0;
 
     do {
-        showMainMenu = mainMenu(player, option1counter, var, counterTries1, option1CordinatesCounter, timer, timercounter);
+        showMainMenu = mainMenu(player, option1counter, var, counterTries1, option1CordinatesCounter, timer, timercounter, computer, counterTries3, timer2, timercounter2);
     } while (showMainMenu != false);
 }
 //|||==============================MAIN LAYER==============================|||//
