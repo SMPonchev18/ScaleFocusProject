@@ -4,12 +4,7 @@
 }
 
 body {
-	background-position: center center;
-    	background-repeat: no-repeat;
-    	background-size: cover;
-    	height: 100vh;
-    	margin: 0;
-    	display: grid;
+	font-family: 'Poppins', sans-serif;
 }
 
 .wrapper {
@@ -133,14 +128,15 @@ html {
 	color: rgb(156, 156, 156);
 }
 
-<<<<<<< HEAD
-.sec2 p {
-	font-family: Georgia, 'Times New Roman', Times, serif;
-	margin-left: 650px;
-	font-size: 24px;
-	font-family: Georgia, 'Times New Roman', Times, serif;
-	color: #fff;
-=======
+/* .sec2 p { */
+	/* margin-left: 600px; */
+	/* font-size: 24px; */
+	/* font-family: Georgia, 'Times New Roman', Times, serif; */
+	/* color: #fff; */
+/* } */
+
+
+
 .ATG {
   margin: auto;
   width: 40%;
@@ -150,7 +146,6 @@ html {
    font-size: 24px;
    color: #fff;
    border-style: outset;
->>>>>>> 6533c045ea2e31305be2018551144a101af77ad2
 }
 
 .levelBorder {
@@ -198,6 +193,7 @@ video {
 	background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(images/backGroundSec1.jpg);
 	-webkit-background-size: cover;
 	background-size: cover;
+	background-position: center center;
 	position: relative;
 }
 
